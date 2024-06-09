@@ -18,6 +18,8 @@ export class SuperAdmin {
   password: string;
 
   validatePassword: (password: string) => boolean;
+
+  generateToken: () => string;
 }
 
 export const SuperAdminSchema = SchemaFactory.createForClass(SuperAdmin);
@@ -26,4 +28,8 @@ SuperAdminSchema.methods.validatePassword = function (
   password: string,
 ): boolean {
   return this.password === password;
+};
+
+SuperAdminSchema.methods.generateToken = function (): string {
+  return 'token from DB Model';
 };

@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SuperAdmin } from './schemas/super-admin.schema';
 import { Model } from 'mongoose';
@@ -24,18 +24,22 @@ export class SuperAdminService {
     const superAdmin = await this.superAdminModel.findOne({
       email: loginDto.email,
     });
+
     if (!superAdmin) {
-      throw new HttpException('Super admin not found', 404);
+      throw new HttpException('Super admin not found', HttpStatus.NOT_FOUND);
     }
+
     const isPasswordValid = superAdmin.validatePassword(loginDto.password);
 
     if (!isPasswordValid) {
-      throw new HttpException('Invalid password', 401);
+      throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
     }
+
+    const token = superAdmin.generateToken();
 
     return {
       message: 'Login successful',
-      token: 'token',
+      token: token,
     };
   }
 }

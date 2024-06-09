@@ -6,6 +6,7 @@ import { LoginDto } from './dtos/login.dto';
 @Controller('super-admin')
 export class SuperAdminController {
   constructor(private readonly superAdminService: SuperAdminService) {}
+  
   @Post()
   async createSuperAdmin(@Body() createSuperAdminDto: CreateSuperAdminDto) {
     return this.superAdminService.createSuperAdmin(createSuperAdminDto);
