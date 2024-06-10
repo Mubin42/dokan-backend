@@ -20,6 +20,10 @@ export class SuperAdminService {
     return superAdmin.save();
   }
 
+  async findOne(id: string) {
+    return this.superAdminModel.findById(id).exec();
+  }
+
   async loginSuperAdmin(loginDto: LoginDto) {
     const superAdmin = await this.superAdminModel.findOne({
       email: loginDto.email,

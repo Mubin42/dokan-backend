@@ -1,12 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SuperAdminService } from './super-admin.service';
 import { CreateSuperAdminDto } from './dtos/super-admin.dto';
 import { LoginDto } from './dtos/login.dto';
+import { SuperAdminAuthGuard } from 'src/guards/super-admin-auth.guard';
 
 @Controller('super-admin')
+@UseGuards(SuperAdminAuthGuard)
 export class SuperAdminController {
   constructor(private readonly superAdminService: SuperAdminService) {}
-  
+
   @Post()
   async createSuperAdmin(@Body() createSuperAdminDto: CreateSuperAdminDto) {
     return this.superAdminService.createSuperAdmin(createSuperAdminDto);
