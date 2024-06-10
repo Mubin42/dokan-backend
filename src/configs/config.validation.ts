@@ -18,6 +18,11 @@ class EnvironmentVariables {
   @IsString()
   @MinLength(1)
   DB_URL: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(1)
+  JWT_SECRET: string;
 }
 
 // function to validating the configurations

@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SuperAdminService } from './super-admin.service';
 import { CreateSuperAdminDto } from './dtos/super-admin.dto';
 import { LoginDto } from './dtos/login.dto';
-import { SuperAdminAuthGuard } from 'src/guards/super-admin-auth.guard';
+import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 
 @Controller('super-admin')
 @UseGuards(SuperAdminAuthGuard)
