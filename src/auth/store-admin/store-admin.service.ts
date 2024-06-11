@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { StoreAdmin } from './schemas/store-admin.schema';
+import { StoreAdmin } from '../schemas/store-admin.schema';
 import { Model } from 'mongoose';
-import { CreateStoreAdminDto } from './dtos/create-store-admin.dto';
+import { CreateStoreAdminDto } from '../dtos/store-admin.dto';
 
 @Injectable()
 export class StoreAdminService {

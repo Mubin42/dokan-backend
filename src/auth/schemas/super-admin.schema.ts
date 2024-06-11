@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { compare, hash } from 'bcrypt';
 import { HydratedDocument } from 'mongoose';
 
 export type SuperAdminDocument = HydratedDocument<SuperAdmin>;
@@ -17,19 +18,30 @@ export class SuperAdmin {
   @Prop({ required: true })
   password: string;
 
-  validatePassword: (password: string) => boolean;
+  validatePassword: (password: string) => Promise<boolean>;
 
   generateToken: () => string;
 }
 
 export const SuperAdminSchema = SchemaFactory.createForClass(SuperAdmin);
 
-SuperAdminSchema.methods.validatePassword = function (
+SuperAdminSchema.methods.validatePassword = async function (
   password: string,
-): boolean {
-  return this.password === password;
+): Promise<boolean> {
+  const match = await compare(password, this.password);
+  return match;
 };
 
 SuperAdminSchema.methods.generateToken = function (): string {
   return 'token from DB Model';
 };
+
+SuperAdminSchema.pre('save', async function (next) {
+  // if the password is not modified, skip this middleware
+  if (!this.isModified('password')) return next();
+
+  // if password is modified
+  const hashedPassword = await hash(this.password, 10);
+  this.password = hashedPassword;
+  next();
+});

@@ -1,15 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dtos/login.dto';
+import { SuperAdminService } from 'src/auth/super-admin/super-admin.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
-
-  async login(user: any) {
-    const payload = { _id: user._id, email: user.email };
-    console.log('JWT_SECRET:', process.env.JWT_SECRET); // Add this line for debugging
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
-  }
+  constructor() {}
 }
