@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Headers } from '@nestjs/common';
+import { Controller, Get, Headers } from '@nestjs/common';
 import { StoreService } from './store.service';
 
 @Controller('store')
@@ -10,3 +10,4 @@ export class StoreController {
     return this.storeService.getProducts(store);
   }
 }
+

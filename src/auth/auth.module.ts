@@ -28,5 +28,6 @@ import { StoreAdmin, StoreAdminSchema } from './schemas/store-admin.schema';
   ],
   providers: [AuthService, SuperAdminService, StoreAdminService],
   controllers: [AuthController, SuperAdminController, StoreAdminController],
+  exports: [AuthModule, SuperAdminService],
 })
 export class AuthModule {}
