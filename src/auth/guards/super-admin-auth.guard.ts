@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { SuperAdminService } from 'src/auth/super-admin/super-admin.service';
+import { SuperAdminService } from '../super-admin/super-admin.service';
 
 @Injectable()
 export class SuperAdminAuthGuard implements CanActivate {

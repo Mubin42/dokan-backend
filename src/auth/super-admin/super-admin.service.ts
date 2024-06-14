@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SuperAdmin } from '../schemas/super-admin.schema';
 import { FilterQuery, Model } from 'mongoose';
-import {  CreateSuperAdminReqBody } from '../dtos/super-admin.dto';
+import { CreateSuperAdminReqBody } from '../dtos/super-admin.dto';
 import { LoginDto } from '../dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 
