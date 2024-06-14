@@ -5,6 +5,9 @@ enum ConfigType {
   object = 'object',
   string = 'string',
   number = 'number',
+  boolean = 'boolean',
+  array = 'array',
+  date = 'date',
 }
 
 @Schema({
@@ -19,5 +22,5 @@ export class SystemConfigSchema {
   value: any;
 
   @Prop({ required: true, enum: ConfigType })
-  type: ConfigType
+  type: ConfigType;
 }

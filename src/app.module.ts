@@ -1,7 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigsModule } from './configs/configs.module';
 import { MongooseModule } from '@nestjs/mongoose';
-
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from './store/store.module';
 import { ValidateStoreMiddleware } from './common/middlewares/validate-store.middleware';
