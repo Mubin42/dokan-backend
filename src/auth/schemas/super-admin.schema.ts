@@ -12,11 +12,20 @@ export class SuperAdmin {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true, unique: true })
   email: string;
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ required: true, default: 'super-admin' })
+  role: string;
+
+  @Prop({ default: true })
+  isActive: boolean;
+
+  @Prop()
+  phone: string;
 
   validatePassword: (password: string) => Promise<boolean>;
 

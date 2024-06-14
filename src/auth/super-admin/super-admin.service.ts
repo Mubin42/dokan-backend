@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SuperAdmin } from '../schemas/super-admin.schema';
 import { FilterQuery, Model } from 'mongoose';
-import { CreateSuperAdminDto } from '../dtos/super-admin.dto';
+import {  CreateSuperAdminReqBody } from '../dtos/super-admin.dto';
 import { LoginDto } from '../dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 
@@ -17,8 +17,18 @@ export class SuperAdminService {
     return this.superAdminModel.find().exec();
   }
 
-  async createSuperAdmin(createSuperAdminDto: CreateSuperAdminDto) {
-    const superAdmin = new this.superAdminModel(createSuperAdminDto);
+  async createSuperAdmin(createSuperAdminReqBody: CreateSuperAdminReqBody) {
+    const { email } = createSuperAdminReqBody;
+    const ifExists = await this.findByQuery({ email });
+
+    if (ifExists) {
+      throw new HttpException(
+        'Super admin already exists with this email',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const superAdmin = new this.superAdminModel(createSuperAdminReqBody);
     return superAdmin.save();
   }
 

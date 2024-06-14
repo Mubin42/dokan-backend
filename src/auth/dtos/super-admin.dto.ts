@@ -1,6 +1,13 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+} from 'class-validator';
 
-export class CreateSuperAdminDto {
+export class CreateSuperAdminReqBody {
   @IsString()
   name: string;
 
@@ -10,4 +17,16 @@ export class CreateSuperAdminDto {
 
   @IsNotEmpty()
   password: string;
+
+  @IsString()
+  @IsOptional()
+  role: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean;
+
+  @IsPhoneNumber()
+  @IsOptional()
+  phone: string;
 }
