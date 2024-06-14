@@ -9,6 +9,7 @@ import { StoreAdminController } from './store-admin/store-admin.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SuperAdmin, SuperAdminSchema } from './schemas/super-admin.schema';
 import { StoreAdmin, StoreAdminSchema } from './schemas/store-admin.schema';
+import { SuperAdminAuthGuard } from './guards/super-admin-auth.guard';
 
 @Module({
   imports: [
@@ -26,8 +27,13 @@ import { StoreAdmin, StoreAdminSchema } from './schemas/store-admin.schema';
       },
     ]),
   ],
-  providers: [AuthService, SuperAdminService, StoreAdminService],
+  providers: [
+    AuthService,
+    SuperAdminService,
+    StoreAdminService,
+    SuperAdminAuthGuard,
+  ],
   controllers: [AuthController, SuperAdminController, StoreAdminController],
-  exports: [AuthModule],
+  exports: [AuthModule, SuperAdminService],
 })
 export class AuthModule {}

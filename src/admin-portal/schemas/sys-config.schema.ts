@@ -1,7 +1,8 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 // type of the system config
-enum ConfigType {
+export enum ConfigValueType {
   object = 'object',
   string = 'string',
   number = 'number',
@@ -10,17 +11,21 @@ enum ConfigType {
   date = 'date',
 }
 
+export type SystemConfigType = HydratedDocument<SystemConfig>;
+
 @Schema({
   timestamps: true,
   versionKey: '__v',
 })
-export class SystemConfigSchema {
+export class SystemConfig {
   @Prop({ required: true, unique: true })
   key: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: mongoose.Schema.Types.Mixed })
   value: any;
 
-  @Prop({ required: true, enum: ConfigType })
-  type: ConfigType;
+  @Prop({ required: true, enum: ConfigValueType })
+  type: ConfigValueType;
 }
+
+export const SystemConfigSchema = SchemaFactory.createForClass(SystemConfig);
