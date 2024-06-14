@@ -62,7 +62,7 @@ export class SuperAdminService {
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: `Bearer ${this.jwtService.sign(payload)}`,
     };
   }
 }

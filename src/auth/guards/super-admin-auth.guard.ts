@@ -1,11 +1,15 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { SuperAdminService } from '../super-admin/super-admin.service';
+import { SuperAdminService } from '../../auth/super-admin/super-admin.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class SuperAdminAuthGuard implements CanActivate {
-  constructor(private readonly superAdminService: SuperAdminService) {}
+  constructor(
+    private jwtService: JwtService,
+    private readonly superAdminService: SuperAdminService,
+  ) {}
 
   canActivate(
     context: ExecutionContext,
@@ -16,8 +20,25 @@ export class SuperAdminAuthGuard implements CanActivate {
   }
 
   private validateRequest(request: Request): boolean {
-    const token = request.headers.authorization;
+    const authorization = request.headers.authorization;
 
-    return token === 'super-admin-token';
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+      return false;
+    }
+
+    const token = authorization.split(' ')[1];
+
+    const decoded = this.jwtService.decode(token);
+
+    if (!decoded) {
+      return false;
+    }
+
+    const admin = this.superAdminService.findByQuery({
+      _id: decoded._id,
+      isActive: true,
+    });
+
+    return !!admin;
   }
 }

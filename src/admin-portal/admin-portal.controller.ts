@@ -1,9 +1,6 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
-
+import { Controller, Get } from '@nestjs/common';
 
 @Controller('admin-portal')
-@UseGuards(SuperAdminAuthGuard)
 export class AdminPortalController {
   constructor() {}
   @Get()
