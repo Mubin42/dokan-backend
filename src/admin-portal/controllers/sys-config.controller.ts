@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { SysConfigService } from '../providers/sys-config.service';
 import { CreateSystemConfigReqBody } from '../dtos/sys-config.dto';
+import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 
 @Controller('admin-portal/config')
+@UseGuards(SuperAdminAuthGuard)
 export class SysConfigController {
   constructor(private readonly sysConfigService: SysConfigService) {}
 

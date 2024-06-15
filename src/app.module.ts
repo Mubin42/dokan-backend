@@ -3,7 +3,7 @@ import { ConfigsModule } from './configs/configs.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from './store/store.module';
-import { ValidateStoreMiddleware } from './common/middlewares/validate-store.middleware';
+import { ValidateStoreMiddleware } from './store/middlewares/validate-store.middleware';
 import { AdminPortalModule } from './admin-portal/admin-portal.module';
 
 @Module({

@@ -7,6 +7,8 @@ import { SysConfigService } from './providers/sys-config.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SystemConfig, SystemConfigSchema } from './schemas/sys-config.schema';
 import { StoreConfig, StoreConfigSchema } from './schemas/store-config.schema';
+import { StoreConfigService } from './providers/store-config.service';
+import { StoreConfigController } from './controllers/store-config.controller';
 
 @Module({
   imports: [
@@ -17,7 +19,11 @@ import { StoreConfig, StoreConfigSchema } from './schemas/store-config.schema';
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     AuthModule,
   ],
-  providers: [SysConfigService],
-  controllers: [AdminPortalController, SysConfigController],
+  providers: [SysConfigService, StoreConfigService],
+  controllers: [
+    AdminPortalController,
+    SysConfigController,
+    StoreConfigController,
+  ],
 })
 export class AdminPortalModule {}

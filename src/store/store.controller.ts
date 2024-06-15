@@ -1,4 +1,4 @@
-import { Body, Controller, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { CreateStoreReqBody } from './dtos/store.dto';
 
@@ -7,10 +7,15 @@ export class StoreController {
   constructor(private readonly storeService: StoreService) {}
 
   @Post('create')
-  getProducts(
+  createStore(
     @Headers('store') store: string,
-    @Body() createStoreReqBody: CreateStoreReqBody,
+    @Body() createStoreReqBodyWithApiKey: CreateStoreReqBody,
   ) {
-    return this.storeService.createStore(store, createStoreReqBody);
+    return this.storeService.createStore(store, createStoreReqBodyWithApiKey);
+  }
+
+  @Get('products')
+  getProducts(@Headers('store') store: string) {
+    return this.storeService.getProducts(store);
   }
 }
