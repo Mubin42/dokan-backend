@@ -5,7 +5,7 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request } from 'express';
 import { StoreConfigService } from 'src/admin-portal/providers/store-config.service';
 
 @Injectable()
@@ -20,16 +20,18 @@ export class ValidateStoreMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const store = req.headers.store;
-
+    // find store by apiKey
     const storeConfig =
       await this.storeConfigService.findByApiKeyForStoreMiddleWare(
         store as string,
       );
 
+    // if store is not found, throw an error
     if (!storeConfig) {
-      throw new HttpException('Invalid store 2', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('Invalid store', HttpStatus.UNAUTHORIZED);
     }
 
+    // if store is not active, throw an error
     if (!storeConfig.isActive) {
       throw new HttpException(
         'Store is not active, Please contact the admins',
@@ -37,10 +39,7 @@ export class ValidateStoreMiddleware implements NestMiddleware {
       );
     }
 
-    if (!storeConfig) {
-      throw new HttpException('Invalid store', HttpStatus.UNAUTHORIZED);
-    }
-
+    // pass the request to the next middleware
     next();
   }
 }

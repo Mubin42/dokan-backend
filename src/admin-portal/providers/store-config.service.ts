@@ -40,17 +40,6 @@ export class StoreConfigService {
 
   // this method is used in the ValidateStoreMiddleware
   async findByApiKeyForStoreMiddleWare(apiKey: string) {
-    // const storeConfig = await this.storeConfigModel.findOne({ apiKey }).exec();
-    // if (!storeConfig) {
-    //   throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    // }
-
-    // if (!storeConfig.isActive) {
-    //   throw new HttpException(
-    //     'Store is not active, Please contact the admins',
-    //     HttpStatus.UNAUTHORIZED,
-    //   );
-    // }
 
     return await this.storeConfigModel.findOne({ apiKey }).exec();
   }

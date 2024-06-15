@@ -9,6 +9,7 @@ import { SystemConfig, SystemConfigSchema } from './schemas/sys-config.schema';
 import { StoreConfig, StoreConfigSchema } from './schemas/store-config.schema';
 import { StoreConfigService } from './providers/store-config.service';
 import { StoreConfigController } from './controllers/store-config.controller';
+import { StoreController } from './controllers/store.controller';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { StoreConfigController } from './controllers/store-config.controller';
     AdminPortalController,
     SysConfigController,
     StoreConfigController,
+    StoreController,
   ],
 })
 export class AdminPortalModule {}
