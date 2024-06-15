@@ -32,10 +32,6 @@ export class SuperAdminService {
     return superAdmin.save();
   }
 
-  async findOne(id: string) {
-    return this.superAdminModel.findById(id).exec();
-  }
-
   async findByQuery(query: FilterQuery<SuperAdmin>) {
     return this.superAdminModel.findOne(query).exec();
   }
