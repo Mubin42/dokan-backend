@@ -1,5 +1,10 @@
-import { Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+
+type KeyValuePair = {
+  key: string;
+  value: string;
+};
 
 export type StoreDocument = HydratedDocument<Store>;
 
@@ -7,23 +12,31 @@ export type StoreDocument = HydratedDocument<Store>;
   timestamps: true,
   versionKey: '__v',
 })
-// temporary models
 export class Store {
+  @Prop({ required: true })
   name: string;
-  description: string;
-  searchTags: string[];
+
+  @Prop({ required: true })
   storeType: string;
+
+  @Prop()
+  description: string;
+  @Prop()
+  searchTags: string[];
+  // TODO: make this the reference of the address schema
+  @Prop()
   address: string;
+
+  @Prop({ type: Object })
   contact: {
     phone: string;
     email: string;
     website: string;
   };
-  socials: {
-    facebook: string;
-    instagram: string;
-    youtube: string;
-  };
+  @Prop({ type: [Object] })
+  socials: KeyValuePair[];
+
+  @Prop({ type: Object })
   meta: {
     title: string;
     description: string;
