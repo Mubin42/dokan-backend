@@ -1,6 +1,7 @@
 import { Controller, Post } from '@nestjs/common';
-import { SuperAdminService } from 'src/auth/super-admin/super-admin.service';
+
 import { CreateSuperAdminReqBody } from '../../auth/dtos/super-admin.dto';
+import { SuperAdminService } from 'src/auth/providers/super-admin.service';
 
 @Controller('admin-portal')
 export class AdminPortalController {

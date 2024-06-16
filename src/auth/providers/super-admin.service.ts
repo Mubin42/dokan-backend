@@ -61,4 +61,18 @@ export class SuperAdminService {
       access_token: `Bearer ${this.jwtService.sign(payload)}`,
     };
   }
+
+  // get self super admin
+  async getSelf(token: string) {
+    const decoded = this.jwtService.decode(token.split(' ')[1]) as {
+      _id: string;
+    };
+    const superAdmin = await this.superAdminModel.findById(decoded._id).exec();
+
+    if (!superAdmin) {
+      throw new HttpException('Super admin not found', HttpStatus.NOT_FOUND);
+    }
+
+    return superAdmin;
+  }
 }

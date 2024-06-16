@@ -40,7 +40,6 @@ export class StoreConfigService {
 
   // this method is used in the ValidateStoreMiddleware
   async findByApiKeyForStoreMiddleWare(apiKey: string) {
-
     return await this.storeConfigModel.findOne({ apiKey }).exec();
   }
 }

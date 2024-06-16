@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 
 import { JwtModule } from '@nestjs/jwt';
-import { SuperAdminService } from './super-admin/super-admin.service';
+import { SuperAdminService } from './providers/super-admin.service';
 import { StoreAdminService } from './store-admin/store-admin.service';
-import { SuperAdminController } from './super-admin/super-admin.controller';
+
 import { StoreAdminController } from './store-admin/store-admin.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SuperAdmin, SuperAdminSchema } from './schemas/super-admin.schema';
@@ -27,7 +27,7 @@ import { SuperAdminAuthGuard } from './guards/super-admin-auth.guard';
     ]),
   ],
   providers: [SuperAdminService, StoreAdminService, SuperAdminAuthGuard],
-  controllers: [SuperAdminController, StoreAdminController],
+  controllers: [StoreAdminController],
   exports: [AuthModule, SuperAdminService],
 })
 export class AuthModule {}

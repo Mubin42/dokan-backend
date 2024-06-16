@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { SuperAdminService } from '../../auth/super-admin/super-admin.service';
+import { SuperAdminService } from '../providers/super-admin.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
