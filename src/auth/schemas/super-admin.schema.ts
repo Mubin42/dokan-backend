@@ -21,7 +21,7 @@ export class SuperAdmin {
   @Prop({ required: true, default: 'super-admin' })
   role: string;
 
-  @Prop({ default: true })
+  @Prop({ required: true, default: true })
   isActive: boolean;
 
   @Prop()

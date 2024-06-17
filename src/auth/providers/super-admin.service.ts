@@ -43,6 +43,7 @@ export class SuperAdminService {
       ],
     };
 
+    // TODO: sort does not work for boolean and role fields
     const data = await this.superAdminModel
       .find(searchQuery)
       .select('-password')
