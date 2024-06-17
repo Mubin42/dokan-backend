@@ -6,19 +6,22 @@ import {
 } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 
-export type PaginatedRequest = Request & {
+export type PaginationRequest = Request & {
   meta: {
     search: string;
     sort: string;
     page: number;
     limit: number;
     skip: number;
+    docsInPage?: number;
+    totalDocs?: number;
+    totalPages?: number;
   };
 };
 
 @Injectable()
 export class PaginationMiddleware implements NestMiddleware {
-  use(req: PaginatedRequest, res: Response, next: NextFunction) {
+  use(req: PaginationRequest, res: Response, next: NextFunction) {
     // get sort, page, limit, search from query params
     const sort: string = req.query.sort
       ? req.query.sort.toString()

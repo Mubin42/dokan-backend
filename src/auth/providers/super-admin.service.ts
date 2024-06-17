@@ -6,9 +6,9 @@ import {
   CreateSuperAdminReqBody,
   UpdateSuperAdminReqBody,
 } from '../dtos/super-admin.dto';
-
 import { JwtService } from '@nestjs/jwt';
 import { LoginReqBody } from '../dtos/login.dto';
+import { PaginationRequest } from 'src/common/middleware/pagination.middleware';
 
 @Injectable()
 export class SuperAdminService {
@@ -30,6 +30,37 @@ export class SuperAdminService {
 
     const superAdmin = new this.superAdminModel(createSuperAdminReqBody);
     return superAdmin.save();
+  }
+
+  async getAllWithPagination(req: PaginationRequest) {
+    const { sort, limit, skip, search } = req.meta;
+
+    // query for search via name and email
+    const searchQuery = {
+      $or: [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+      ],
+    };
+
+    const data = await this.superAdminModel
+      .find(searchQuery)
+      .select('-password')
+      .sort(sort)
+      .limit(limit)
+      .skip(skip)
+      .exec();
+
+    const count = await this.superAdminModel.countDocuments(searchQuery);
+
+    req.meta.docsInPage = data.length;
+    req.meta.totalDocs = count;
+    req.meta.totalPages = Math.ceil(count / limit);
+
+    return {
+      ...req.meta,
+      doc: data,
+    };
   }
 
   async getByID(id: string) {

@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 
@@ -16,6 +17,7 @@ import {
 import { SuperAdminService } from 'src/auth/providers/super-admin.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
+import { PaginationRequest } from 'src/common/middleware/pagination.middleware';
 
 @ApiTags('Super Admins')
 @Controller('admin-portal/super-admins')
@@ -23,13 +25,14 @@ import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 export class SuperAdminController {
   constructor(private readonly superAdminService: SuperAdminService) {}
 
+  // Pagination middleware is applied to this route
   @ApiResponse({
     status: 200,
     description: 'Get all super admins',
   })
   @Get()
-  async getAllSuperAdmins() {
-    return this.superAdminService.getAllSuperAdmins();
+  async getAllSuperAdmins(@Req() paginationRequest: PaginationRequest) {
+    return this.superAdminService.getAllWithPagination(paginationRequest);
   }
 
   @ApiResponse({

@@ -27,11 +27,15 @@ import { PaginationMiddleware } from './common/middleware/pagination.middleware'
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // validate store middleware is applied to this route
     consumer.apply(ValidateStoreMiddleware).forRoutes('store');
 
-    consumer.apply(PaginationMiddleware).forRoutes({
-      path: 'admin-portal/stores',
-      method: RequestMethod.GET,
-    });
+    // pagination middleware is applied to these routes
+    consumer
+      .apply(PaginationMiddleware)
+      .forRoutes(
+        { path: 'admin-portal/stores', method: RequestMethod.GET },
+        { path: 'admin-portal/super-admins', method: RequestMethod.GET },
+      );
   }
 }
