@@ -1,17 +1,31 @@
 import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
-import { LoginDto } from 'src/auth/dtos/login.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginReqBody } from 'src/auth/dtos/login.dto';
+
 import { SuperAdminService } from 'src/auth/providers/super-admin.service';
 
+@ApiTags('Super Admin Auth')
 @Controller('admin-portal/auth')
 export class SuperAdminAuthController {
   constructor(private readonly superAdminService: SuperAdminService) {}
 
   @Post('login')
-  async loginSuperAdmin(@Body() loginDto: LoginDto) {
+  @ApiResponse({
+    status: 201,
+    description: 'Super admin login',
+  })
+  async loginSuperAdmin(@Body() loginDto: LoginReqBody) {
     return this.superAdminService.superAdminLogin(loginDto);
   }
+
   @Get('self')
   async getSelf(@Headers('Authorization') token: string) {
-    return this.superAdminService.getSelf(token);
+    // remove password from response
+    const superAdmin = await this.superAdminService.getSelf(token);
+    delete superAdmin.password;
+
+    return {
+      doc: superAdmin,
+    };
   }
 }

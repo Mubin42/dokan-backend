@@ -3,8 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SuperAdmin } from '../schemas/super-admin.schema';
 import { FilterQuery, Model } from 'mongoose';
 import { CreateSuperAdminReqBody } from '../dtos/super-admin.dto';
-import { LoginDto } from '../dtos/login.dto';
+
 import { JwtService } from '@nestjs/jwt';
+import { LoginReqBody } from '../dtos/login.dto';
 
 @Injectable()
 export class SuperAdminService {
@@ -36,7 +37,7 @@ export class SuperAdminService {
     return this.superAdminModel.findOne(query).exec();
   }
 
-  async superAdminLogin(loginDto: LoginDto) {
+  async superAdminLogin(loginDto: LoginReqBody) {
     const { email, password } = loginDto;
 
     const superAdmin = await this.findByQuery({ email });
@@ -58,7 +59,7 @@ export class SuperAdminService {
     };
 
     return {
-      access_token: `Bearer ${this.jwtService.sign(payload)}`,
+      accessToken: `Bearer ${this.jwtService.sign(payload)}`,
     };
   }
 
@@ -67,7 +68,10 @@ export class SuperAdminService {
     const decoded = this.jwtService.decode(token.split(' ')[1]) as {
       _id: string;
     };
-    const superAdmin = await this.superAdminModel.findById(decoded._id).exec();
+    const superAdmin = await this.superAdminModel
+      .findById(decoded._id)
+      .select('-password')
+      .exec();
 
     if (!superAdmin) {
       throw new HttpException('Super admin not found', HttpStatus.NOT_FOUND);
