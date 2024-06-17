@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AdminPortalController } from './admin-portal.controller';
+
 import { SysConfigController } from './controllers/sys-config.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
@@ -11,6 +11,7 @@ import { StoreConfigService } from './providers/store-config.service';
 import { StoreConfigController } from './controllers/store-config.controller';
 import { StoreController } from './controllers/store.controller';
 import { SuperAdminAuthController } from './controllers/super-admin-auth.controller';
+import { SuperAdminController } from './controllers/super-admin.controller';
 
 @Module({
   imports: [
@@ -23,11 +24,11 @@ import { SuperAdminAuthController } from './controllers/super-admin-auth.control
   ],
   providers: [SysConfigService, StoreConfigService],
   controllers: [
-    AdminPortalController,
     SysConfigController,
     StoreConfigController,
     StoreController,
     SuperAdminAuthController,
+    SuperAdminController,
   ],
 })
 export class AdminPortalModule {}

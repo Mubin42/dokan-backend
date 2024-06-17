@@ -2,7 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SuperAdmin } from '../schemas/super-admin.schema';
 import { FilterQuery, Model } from 'mongoose';
-import { CreateSuperAdminReqBody } from '../dtos/super-admin.dto';
+import {
+  CreateSuperAdminReqBody,
+  UpdateSuperAdminReqBody,
+} from '../dtos/super-admin.dto';
 
 import { JwtService } from '@nestjs/jwt';
 import { LoginReqBody } from '../dtos/login.dto';
@@ -13,10 +16,6 @@ export class SuperAdminService {
     private jwtService: JwtService,
     @InjectModel(SuperAdmin.name) private superAdminModel: Model<SuperAdmin>,
   ) {}
-
-  async getAllSuperAdmins() {
-    return this.superAdminModel.find().exec();
-  }
 
   async createSuperAdmin(createSuperAdminReqBody: CreateSuperAdminReqBody) {
     const { email } = createSuperAdminReqBody;
@@ -31,6 +30,47 @@ export class SuperAdminService {
 
     const superAdmin = new this.superAdminModel(createSuperAdminReqBody);
     return superAdmin.save();
+  }
+
+  async getByID(id: string) {
+    const data = await this.superAdminModel
+      .findById(id)
+      .select('-password')
+      .exec();
+
+    if (!data) {
+      throw new HttpException('Super admin not found', HttpStatus.NOT_FOUND);
+    }
+
+    return data;
+  }
+
+  async getAllSuperAdmins() {
+    return this.superAdminModel.find().select('-password').exec();
+  }
+
+  async update(id: string, updateSuperAdminReqBody: UpdateSuperAdminReqBody) {
+    const superAdmin = await this.superAdminModel.findByIdAndUpdate(
+      id,
+      updateSuperAdminReqBody,
+      { new: true },
+    );
+
+    if (!superAdmin) {
+      throw new HttpException('Super admin not found', HttpStatus.NOT_FOUND);
+    }
+
+    return superAdmin;
+  }
+
+  async delete(id: string) {
+    const superAdmin = await this.superAdminModel.findByIdAndDelete(id).exec();
+
+    if (!superAdmin) {
+      throw new HttpException('Super admin not found', HttpStatus.NOT_FOUND);
+    }
+
+    return superAdmin;
   }
 
   async findByQuery(query: FilterQuery<SuperAdmin>) {
