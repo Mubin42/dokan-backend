@@ -15,5 +15,6 @@ import { Store, StoreSchema } from './schemas/store.schema';
   ],
   providers: [StoreService],
   controllers: [StoreController],
+  exports: [StoreService],
 })
 export class StoreModule {}

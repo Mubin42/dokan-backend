@@ -12,6 +12,7 @@ import { StoreConfigController } from './controllers/store-config.controller';
 import { StoreController } from './controllers/store.controller';
 import { SuperAdminAuthController } from './controllers/super-admin-auth.controller';
 import { SuperAdminController } from './controllers/super-admin.controller';
+import { StoreModule } from 'src/store/store.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SuperAdminController } from './controllers/super-admin.controller';
     ]),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     AuthModule,
+    StoreModule,
   ],
   providers: [SysConfigService, StoreConfigService],
   controllers: [

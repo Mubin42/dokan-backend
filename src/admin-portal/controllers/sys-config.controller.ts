@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SysConfigService } from '../providers/sys-config.service';
-import { CreateSystemConfigReqBody } from '../dtos/sys-config.dto';
+import {
+  CreateSystemConfigReqBody,
+  UpdateSystemConfigReqBody,
+} from '../dtos/sys-config.dto';
 import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 
 @ApiTags('System Configuration') // Tag for grouping endpoints in Swagger UI
@@ -51,6 +62,23 @@ export class SysConfigController {
     const data = await this.sysConfigService.createSystemConfig(
       createSystemConfigReqBody,
     );
+    return {
+      doc: data,
+    };
+  }
+
+  // Update
+  @ApiOperation({ summary: 'Update a system configuration' }) // Operation description
+  @ApiResponse({
+    status: 200,
+    description: 'Updated',
+    type: CreateSystemConfigReqBody,
+  }) // Expected response
+  @Put()
+  async updateConfig(
+    @Body() updateSystemConfigReqBody: UpdateSystemConfigReqBody,
+  ) {
+    const data = await this.sysConfigService.update(updateSystemConfigReqBody);
     return {
       doc: data,
     };

@@ -2,7 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SystemConfig } from '../schemas/sys-config.schema';
 import { Model } from 'mongoose';
-import { CreateSystemConfigReqBody } from '../dtos/sys-config.dto';
+import {
+  CreateSystemConfigReqBody,
+  UpdateSystemConfigReqBody,
+} from '../dtos/sys-config.dto';
 
 @Injectable()
 export class SysConfigService {
@@ -35,6 +38,25 @@ export class SysConfigService {
 
   async getByKey(key: string) {
     const data = await this.sysConfigModel.findOne({ key });
+
+    if (!data) {
+      throw new HttpException(
+        'System config not found with this key',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return data;
+  }
+
+  async update(UpdateSystemConfigReqBody: UpdateSystemConfigReqBody) {
+    const { key } = UpdateSystemConfigReqBody;
+
+    const data = await this.sysConfigModel.findOneAndUpdate(
+      { key },
+      UpdateSystemConfigReqBody,
+      { new: true },
+    );
 
     if (!data) {
       throw new HttpException(

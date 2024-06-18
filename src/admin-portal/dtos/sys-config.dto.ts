@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger'; // Import ApiProperty
+import { ApiProperty, PartialType } from '@nestjs/swagger'; // Import ApiProperty
 import { ConfigValueType } from '../schemas/sys-config.schema';
 
 export class CreateSystemConfigReqBody {
@@ -28,3 +28,7 @@ export class CreateSystemConfigReqBody {
   @IsEnum(ConfigValueType)
   type: ConfigValueType;
 }
+
+export class UpdateSystemConfigReqBody extends PartialType(
+  CreateSystemConfigReqBody,
+) {}
