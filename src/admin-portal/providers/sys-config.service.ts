@@ -32,4 +32,17 @@ export class SysConfigService {
 
     return data.save();
   }
+
+  async getByKey(key: string) {
+    const data = await this.sysConfigModel.findOne({ key });
+
+    if (!data) {
+      throw new HttpException(
+        'System config not found with this key',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return data;
+  }
 }

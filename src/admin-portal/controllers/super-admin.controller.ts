@@ -15,8 +15,9 @@ import {
   UpdateSuperAdminReqBody,
 } from '../../auth/dtos/super-admin.dto';
 import { SuperAdminService } from 'src/auth/providers/super-admin.service';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
+import { PaginationQuery } from 'src/common/dtos/pagination.dto';
 import { PaginationRequest } from 'src/common/middleware/pagination.middleware';
 
 @ApiTags('Super Admins')
@@ -29,6 +30,9 @@ export class SuperAdminController {
   @ApiResponse({
     status: 200,
     description: 'Get all super admins',
+  })
+  @ApiQuery({
+    type: PaginationQuery,
   })
   @Get()
   async getAllSuperAdmins(@Req() paginationRequest: PaginationRequest) {

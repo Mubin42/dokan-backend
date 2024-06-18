@@ -1,22 +1,58 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SysConfigService } from '../providers/sys-config.service';
 import { CreateSystemConfigReqBody } from '../dtos/sys-config.dto';
 import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 
-@Controller('admin-portal/config')
+@ApiTags('System Configuration') // Tag for grouping endpoints in Swagger UI
 @UseGuards(SuperAdminAuthGuard)
+@Controller('admin-portal/config')
 export class SysConfigController {
   constructor(private readonly sysConfigService: SysConfigService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all system configurations' }) // Operation description
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: [CreateSystemConfigReqBody],
+  }) // Expected response
   async getConfigs() {
-    return this.sysConfigService.getSystemConfig();
+    const data = await this.sysConfigService.getSystemConfig();
+    return {
+      doc: data,
+    };
+  }
+
+  @Get(':key')
+  @ApiOperation({ summary: 'Get system configuration by key' }) // Operation description
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: CreateSystemConfigReqBody,
+  }) // Expected response for a single config
+  async getConfigByKey(@Param('key') key: string) {
+    const data = await this.sysConfigService.getByKey(key);
+    return {
+      doc: data,
+    };
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create a new system configuration' }) // Operation description
+  @ApiResponse({
+    status: 201,
+    description: 'Created',
+    type: CreateSystemConfigReqBody,
+  }) // Expected response
   async createConfig(
     @Body() createSystemConfigReqBody: CreateSystemConfigReqBody,
   ) {
-    return this.sysConfigService.createSystemConfig(createSystemConfigReqBody);
+    const data = await this.sysConfigService.createSystemConfig(
+      createSystemConfigReqBody,
+    );
+    return {
+      doc: data,
+    };
   }
 }
