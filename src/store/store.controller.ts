@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Put, Req } from '@nestjs/common';
 import { StoreService } from './store.service';
-import { CreateStoreReqBody } from './dtos/store.dto';
+import { CreateStoreReqBody, UpdateStoreReqBody } from './dtos/store.dto';
+import { StoreRequest } from './middlewares/validate-store.middleware';
 
 @Controller('store')
 export class StoreController {
@@ -14,8 +15,18 @@ export class StoreController {
     return this.storeService.createStore(store, createStoreReqBodyWithApiKey);
   }
 
-  @Get('products')
-  getProducts(@Headers('store') store: string) {
-    return this.storeService.getProducts(store);
+  @Get('self')
+  async getSelf(@Req() req: StoreRequest) {
+    const store = req.store;
+    return this.storeService.getById(store);
+  }
+
+  @Put('update')
+  async updateStore(
+    @Req() req: StoreRequest,
+    @Body() updateStoreReqBody: UpdateStoreReqBody,
+  ) {
+    const store = req.store;
+    return this.storeService.update(store, updateStoreReqBody);
   }
 }

@@ -1,5 +1,6 @@
 import { IsString, IsOptional, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PartialType } from '@nestjs/swagger';
 
 class ContactDto {
   @IsString()
@@ -69,3 +70,5 @@ export class CreateStoreReqBody {
   @Type(() => MetaDto)
   meta?: MetaDto;
 }
+
+export class UpdateStoreReqBody extends PartialType(CreateStoreReqBody) {}
