@@ -36,6 +36,8 @@ export class AppModule implements NestModule {
       .forRoutes(
         { path: 'admin-portal/stores', method: RequestMethod.GET },
         { path: 'admin-portal/super-admins', method: RequestMethod.GET },
+        { path: 'admin-portal/stores', method: RequestMethod.GET },
+        { path: 'admin-portal/store-config', method: RequestMethod.GET },
       );
   }
 }

@@ -49,7 +49,11 @@ export class SuperAdminController {
   })
   @Get(':id')
   async getSuperAdminById(@Param('id') id: string) {
-    return this.superAdminService.getByID(id);
+    const data = await this.superAdminService.getByID(id);
+
+    return {
+      doc: data,
+    };
   }
 
   @ApiResponse({
