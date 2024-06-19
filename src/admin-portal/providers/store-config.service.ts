@@ -22,14 +22,17 @@ export class StoreConfigService {
 
     // query for search
     const searchQuery = {
-      $or: [
-        { apiKey: { $regex: search, $options: 'i' } },
-        { store: { $regex: search, $options: 'i' } },
-      ],
+      $or: [{ apiKey: { $regex: search, $options: 'i' } }],
     };
 
     const data = await this.storeConfigModel
       .find(searchQuery)
+      .populate([
+        {
+          path: 'store',
+          select: '-meta -searchTags',
+        },
+      ])
       .sort(sort)
       .limit(limit)
       .skip(skip)
