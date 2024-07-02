@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 import { PaginationQuery } from 'src/common/dtos/pagination.dto';
@@ -22,5 +22,13 @@ export class StoreController {
   @Get()
   async getStores(@Req() req: PaginationRequest) {
     return this.storeService.getAllWithPagination(req);
+  }
+
+  @Get(':id')
+  async getStoreById(@Param('id') req: string) {
+    const doc = await this.storeService.getById(req);
+    return {
+      doc,
+    };
   }
 }
