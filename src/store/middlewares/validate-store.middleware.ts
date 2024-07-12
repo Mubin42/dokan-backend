@@ -8,6 +8,9 @@ import { ModuleRef } from '@nestjs/core';
 import { NextFunction, Request } from 'express';
 import { StoreConfigService } from 'src/admin-portal/providers/store-config.service';
 
+/**
+ * Request Object type that contains the store id
+ */
 export type StoreRequest = Request & {
   store: string;
 };
@@ -24,6 +27,7 @@ export class ValidateStoreMiddleware implements NestMiddleware {
 
   async use(req: StoreRequest, res: Response, next: NextFunction) {
     const store = req.headers.store;
+
     // find store by apiKey
     const storeConfig =
       await this.storeConfigService.findByApiKeyForStoreMiddleWare(

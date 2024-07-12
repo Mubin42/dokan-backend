@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Store } from './store.schema';
 
 export type BrandDocument = HydratedDocument<Brand>;
 
@@ -8,6 +9,13 @@ export type BrandDocument = HydratedDocument<Brand>;
   versionKey: '__v',
 })
 export class Brand {
+  // Pass the reference to the Store schema
+  @Prop({
+    required: true,
+    ref: Store.name,
+  })
+  store: mongoose.Schema.Types.ObjectId;
+
   @Prop({ required: true })
   name: string;
 

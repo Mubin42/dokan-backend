@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Headers, Post, Put, Req } from '@nestjs/common';
-import { StoreService } from './store.service';
-import { CreateStoreReqBody, UpdateStoreReqBody } from './dtos/store.dto';
-import { StoreRequest } from './middlewares/validate-store.middleware';
+import { StoreService } from '../services/store.service';
+import { CreateStoreReqBody, UpdateStoreReqBody } from '../dtos/store.dto';
+import { StoreRequest } from '../middlewares/validate-store.middleware';
 
 @Controller('store')
 export class StoreController {
@@ -18,7 +18,11 @@ export class StoreController {
   @Get('self')
   async getSelf(@Req() req: StoreRequest) {
     const store = req.store;
-    return this.storeService.getById(store);
+    const doc = await this.storeService.getById(store);
+
+    return {
+      doc,
+    };
   }
 
   @Put('update')

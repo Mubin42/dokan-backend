@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SuperAdminAuthGuard } from 'src/auth/guards/super-admin-auth.guard';
 import { PaginationQuery } from 'src/common/dtos/pagination.dto';
 import { PaginationRequest } from 'src/common/middleware/pagination.middleware';
-import { StoreService } from 'src/store/store.service';
+import { StoreService } from 'src/store/services/store.service';
 
 @ApiTags('Stores')
 @ApiBearerAuth()

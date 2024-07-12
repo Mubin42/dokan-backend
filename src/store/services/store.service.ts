@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Store } from './schemas/store.schema';
+import { Store } from '../schemas/store.schema';
 import { Model } from 'mongoose';
-import { CreateStoreReqBody, UpdateStoreReqBody } from './dtos/store.dto';
+import { CreateStoreReqBody, UpdateStoreReqBody } from '../dtos/store.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENTS } from 'src/common/event-emitter/event-name';
 import { PaginationRequest } from 'src/common/middleware/pagination.middleware';
@@ -58,12 +58,6 @@ export class StoreService {
     this.eventEmitter.emitAsync(EVENTS.storeCreated, eventData);
 
     return await this.storeModel.create(createStoreReqBody);
-  }
-
-  async getAll() {
-    const data = await this.storeModel.find().exec();
-
-    return data;
   }
 
   async getById(id: string) {
