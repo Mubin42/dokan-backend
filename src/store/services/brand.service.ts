@@ -4,6 +4,7 @@ import { Brand } from '../schemas/brand.schema';
 import { Model } from 'mongoose';
 import { CreateBrandReqBody, UpdateBrandReqBody } from '../dtos/brand.dto';
 import { PaginationRequest } from 'src/common/middleware/pagination.middleware';
+import { MongooseValidator } from 'src/common/classes/MongooseValidator';
 
 @Injectable()
 export class BrandService {
@@ -51,6 +52,8 @@ export class BrandService {
 
   // Get a brand by id
   async getById(store: string, brandId: string) {
+    MongooseValidator.validateId(brandId);
+
     const data = await this.brandModel.findOne({ store, _id: brandId }).exec();
 
     if (!data) {
@@ -66,6 +69,7 @@ export class BrandService {
     brandId: string,
     updateBrandReqBody: UpdateBrandReqBody,
   ) {
+    MongooseValidator.validateId(brandId);
     const data = await this.brandModel.findOneAndUpdate(
       { store: store, _id: brandId },
       updateBrandReqBody,
@@ -83,6 +87,7 @@ export class BrandService {
 
   // Delete a brand
   async delete(store: string, brandId: string) {
+    MongooseValidator.validateId(brandId);
     const data = await this.brandModel.findOneAndDelete({
       store: store,
       _id: brandId,

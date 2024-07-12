@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Store } from './store.schema';
 
 export type CategoryDocument = HydratedDocument<Category>;
 
@@ -8,6 +9,12 @@ export type CategoryDocument = HydratedDocument<Category>;
   versionKey: '__v',
 })
 export class Category {
+  @Prop({
+    required: true,
+    ref: Store.name,
+  })
+  store: mongoose.Schema.Types.ObjectId;
+
   @Prop({ required: true })
   name: string;
 
