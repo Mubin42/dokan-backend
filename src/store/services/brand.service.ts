@@ -13,8 +13,8 @@ export class BrandService {
   ) {}
 
   // create a new brand
-  async create(store: string, createStoreReqBody: CreateBrandReqBody) {
-    return await this.brandModel.create({ store, ...createStoreReqBody });
+  async create(store: string, createBrandReqBody: CreateBrandReqBody) {
+    return await this.brandModel.create({ store, ...createBrandReqBody });
   }
 
   // Get all brands
