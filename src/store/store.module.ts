@@ -9,6 +9,11 @@ import { BrandController } from './controllers/brand.controller';
 import { Category, CategorySchema } from './schemas/category.schema';
 import { CategoryService } from './services/category.service';
 import { CategoryController } from './controllers/category.controller';
+import { Product, ProductSchema } from './schemas/product.schema';
+import {
+  ProductVariation,
+  ProductVariationSchema,
+} from './schemas/product-variation.schema';
 
 @Module({
   imports: [
@@ -24,6 +29,14 @@ import { CategoryController } from './controllers/category.controller';
       {
         name: Category.name,
         schema: CategorySchema,
+      },
+      {
+        name: Product.name,
+        schema: ProductSchema,
+      },
+      {
+        name: ProductVariation.name,
+        schema: ProductVariationSchema,
       },
     ]),
   ],

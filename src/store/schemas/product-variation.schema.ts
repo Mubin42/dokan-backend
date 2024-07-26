@@ -1,6 +1,7 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Store } from './store.schema';
+import { Product } from './product.schema';
 
 export type ProductVariationDocument = HydratedDocument<ProductVariation>;
 
@@ -16,6 +17,18 @@ export class ProductVariation {
   })
   store: mongoose.Schema.Types.ObjectId;
 
-  // Add reference of the product
+  @Prop({
+    required: true,
+    ref: Product.name,
+  })
   product: mongoose.Schema.Types.ObjectId;
+
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  price: number;
 }
+
+export const ProductVariationSchema =
+  SchemaFactory.createForClass(ProductVariation);
