@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Store } from './store.schema';
-import { Product } from './product.schema';
 
 export type ProductVariationDocument = HydratedDocument<ProductVariation>;
 
@@ -19,7 +18,8 @@ export class ProductVariation {
 
   @Prop({
     required: true,
-    ref: Product.name,
+    // Cannot use forwardRef here because ProductVariation is not a provider, but a schema, use hard reference instead to avoid circular dependency
+    ref: 'Product',
   })
   product: mongoose.Schema.Types.ObjectId;
 
