@@ -28,8 +28,6 @@ export class SuperAdmin {
   phone: string;
 
   validatePassword: (password: string) => Promise<boolean>;
-
-  generateToken: () => string;
 }
 
 export const SuperAdminSchema = SchemaFactory.createForClass(SuperAdmin);
@@ -39,10 +37,6 @@ SuperAdminSchema.methods.validatePassword = async function (
 ): Promise<boolean> {
   const match = await compare(password, this.password);
   return match;
-};
-
-SuperAdminSchema.methods.generateToken = function (): string {
-  return 'token from DB Model';
 };
 
 SuperAdminSchema.pre('save', async function (next) {

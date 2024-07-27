@@ -14,7 +14,6 @@ export class CategoryService {
   constructor(
     @InjectModel(Category.name) private readonly categoryModel: Model<Category>,
   ) {}
-  // Attributes
 
   // create a new category
   async create(store: string, createCategoryReqBody: CreateCategoryReqBody) {
